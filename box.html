@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar Multiple Control Browser</title>
+  </head>
+  <body>
+    <h1>Belajar Multiple Control Browser</h1>
+    <div id="content">
+      <div id="box"></div>
+      <div id="box2"></div>
+    </div>
+
+    <script>
+      const boxChannel = new BroadcastChannel("box_channel");
+      const box = document.getElementById("content")
+      //membuat fungsi untuk pergerakan mouse terhadap content
+      function boxMovement(event){
+        const x = event.clientX
+        const y = event.clientY
+        box.style.left = x + "px";
+        box.style.right = "";
+        box.style.top = y + "px";
+
+        //untuk mengirim data ke browser lain
+        boxChannel.postMessage({x,y})
+      }
+
+      //membuat handling ketika element di post
+      boxChannel.onmessage = (event) => {
+        const {x , y} = event.data
+        box.style.right = x + "px";
+        box.style.left = "";
+        box.style.top = y + "px";
+      }
+      //untuk menggerakan content sesuai dengan pergerakan mouse
+
+      addEventListener("mousemove", boxMovement)
+    </script>
+
+    <style>
+      #box {
+        width: 100px;
+        height: 100px;
+        background-color: aqua;
+      }
+      #box2 {
+        width: 100px;
+        height: 100px;
+        background-color: aquamarine;
+      } 
+      #content{
+        display: flex;
+        position: fixed;
+      } 
+    </style>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Belajar Multiple Control Browser
+    </title>
+</head>
+<body>
+    <h1>Belajar Multiple Control Browser</h1>
+    <div id="myElement"></div>
+    <button onclick="mengirimData()">Mengirim data ke browser satunya</button>
+
+    <script>
+        const myChannel = new BroadcastChannel("my_channel")
+        function mengirimData(){
+            myChannel.postMessage("Ini mengirim ke browser sebelah")
+        }
+        myChannel.onmessage = (event) =>{
+            console.log(event.data)
+        }
+    </script>
+</body>
+</html>
